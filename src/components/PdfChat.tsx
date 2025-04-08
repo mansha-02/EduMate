@@ -170,32 +170,32 @@ export default function PdfChat({ documentId }: PdfChatProps) {
     return (
       <div className="flex h-[calc(100vh-4rem)] items-center justify-center">
         <div className="flex flex-col items-center gap-2">
-          <PacmanLoader color="#538B81" />
+          <PacmanLoader color="#00bcd4" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] bg-muted/10">
+    <div className="flex flex-col h-[calc(100vh-4rem)] bg-gradient-to-r from-cyan-500 to-teal-400">
       {/* Mobile View Selector */}
       <div className="lg:hidden flex items-center justify-center gap-2 p-2 bg-background border-b">
         <Button
           variant={activeView === 'pdf' ? 'default' : 'outline'}
           size="sm"
           onClick={() => setActiveView('pdf')}
-          className="flex-1 max-w-[160px]"
+          className="flex-1 max-w-[160px] bg-cyan-500 hover:bg-cyan-600 text-white transition duration-300 ease-in-out transform hover:scale-105"
         >
-          <FileText className="h-4 w-4 mr-2" />
+          <FileText className="h-4 w-4 mr-2 text-white" />
           Document
         </Button>
         <Button
           variant={activeView === 'chat' ? 'default' : 'outline'}
           size="sm"
           onClick={() => setActiveView('chat')}
-          className="flex-1 max-w-[160px]"
+          className="flex-1 max-w-[160px] bg-cyan-500 hover:bg-cyan-600 text-white transition duration-300 ease-in-out transform hover:scale-105"
         >
-          <MessageSquare className="h-4 w-4 mr-2" />
+          <MessageSquare className="h-4 w-4 mr-2 text-white" />
           Chat
         </Button>
       </div>
@@ -219,8 +219,6 @@ export default function PdfChat({ documentId }: PdfChatProps) {
           />
         </div>
       </div>
-
-      
     </div>
   );
-} 
+}

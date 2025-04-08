@@ -154,7 +154,7 @@ export default function ChatInterface({
             ) : (
               <Send className="h-5 w-5" />
             )}
-            <span className="ml-2 hidden sm:inline">Send</span>
+            <span className="ml-2 hidden sm:inline"></span>
           </Button>
         </form>
       </div>

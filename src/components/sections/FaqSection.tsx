@@ -7,24 +7,24 @@ import {
 
 const faqs = [
   {
-    question: "How does Mind Mentor work?",
-    answer: "Mind Mentor uses advanced AI to analyze your learning style, goals, and preferences to create personalized study plans. It provides tailored resources, tracks your progress, and adapts to your needs as you learn."
+    question: "How does the AI-powered study planning work?",
+    answer: "EduMate generates a dynamic study plan based on your subjects, exam dates, and learning pace.It provides weekly milestones and real-time progress tracking."
   },
   {
     question: "What types of subjects can I study?",
     answer: "Mind Mentor supports a wide range of subjects including sciences, mathematics, languages, humanities, and professional skills. Our AI can help create study plans for any subject you're interested in learning."
   },
   {
-    question: "Can I track my progress?",
-    answer: "Yes! Mind Mentor provides detailed progress tracking, including study time analytics, completion rates, and performance insights. You can monitor your learning journey and adjust your study plans accordingly."
+    question: "What types of study resources are available?",
+    answer: "EduMate curates high-quality study materials, including video tutorials, online courses, documentation, practice exercises, and academic papers. AI-powered filters help you find the most relevant resources."
   },
   {
-    question: "Who is Mind Mentor for?",
-    answer: "Mind Mentor is designed for students, professionals, and lifelong learners of all levels. Whether you're preparing for exams, learning new skills, or pursuing personal development, Mind Mentor can help optimize your learning journey."
+    question: "Who can use EduMate?",
+    answer: "It is designed for students, professionals, and lifelong learners of all levels. Whether you're preparing for exams, learning new skills, or pursuing personal development, Mind Mentor can help optimize your learning journey."
   },
   {
-    question: "Does Mind Mentor provide learning resources?",
-    answer: "Yes, Mind Mentor curates high-quality learning resources tailored to your study plan, including articles, videos, practice exercises, and interactive materials from trusted sources."
+    question: "Can I interact with PDF documents?",
+    answer: "Yes! You can upload PDFs, ask AI questions about the content, highlight key excerpts, and navigate through pages seamlessly. The PDF chat assistant provides context-aware answers."
   }
 ]
 
@@ -33,7 +33,6 @@ export function FaqSection() {
     <section className="py-12 sm:py-20 max-w-3xl mx-auto">
       <div className="text-center mb-12">
         <h2 className="text-2xl sm:text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-        <p className="text-muted-foreground">Find answers to common questions about Mind Mentor</p>
       </div>
       
       <Accordion type="single" collapsible className="w-full">

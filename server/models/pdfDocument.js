@@ -11,7 +11,7 @@ const pdfDocumentSchema = new mongoose.Schema({
     required: true
   },
   pdfData: {
-    type: String, // Base64 encoded PDF data
+    type: String, 
     required: true
   },
   pageCount: {

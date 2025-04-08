@@ -1,44 +1,45 @@
-"use client"
+"use client";
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { useTimerStore } from '@/store/timerStore';
+import { useTimerStore } from "@/store/timerStore";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { Play, Pause, RotateCcw } from "lucide-react";
 
-// Helper function to format time
 const formatTime = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.floor(seconds % 60);
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 };
 
+
 export function StudyTimer() {
   const { toast } = useToast();
   const timer = useTimerStore();
 
   const handleSessionComplete = useCallback(async () => {
-    if (timer.mode === 'focus') {
+    if (timer.mode === "focus") {
       try {
-        const startTime = new Date(Date.now() - (timer.focusTime * 60 * 1000));
+        const startTime = new Date(Date.now() - timer.focusTime * 60 * 1000);
         const endTime = new Date();
-        
-        const response = await fetch('/api/study-sessions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+
+        const response = await fetch("/api/study-sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             duration: timer.focusTime * 60,
             startTime: startTime.toISOString(),
             endTime: endTime.toISOString(),
-            mode: 'focus'
+            mode: "focus",
           }),
         });
 
-        if (!response.ok) throw new Error('Failed to save session');
+        if (!response.ok) throw new Error("Failed to save session");
         const data = await response.json();
 
         toast({
@@ -48,14 +49,13 @@ export function StudyTimer() {
           duration: 5000,
         });
 
-        window.dispatchEvent(new CustomEvent('study-session-completed'));
-        
-        // Switch to break mode
-        timer.setMode('break');
+        window.dispatchEvent(new CustomEvent("study-session-completed"));
+
+        timer.setMode("break");
         timer.setTimeLeft(timer.breakTime * 60);
         timer.setProgress(0);
       } catch (error) {
-        console.error('Error saving session:', error);
+        console.error("Error saving session:", error);
         toast({
           variant: "error",
           title: "Error",
@@ -70,137 +70,87 @@ export function StudyTimer() {
         description: "Ready for another focus session?",
         duration: 5000,
       });
-      
-      // Switch to focus mode
-      timer.setMode('focus');
+      timer.setMode("focus");
       timer.setTimeLeft(timer.focusTime * 60);
       timer.setProgress(0);
     }
   }, [timer, toast]);
 
-  // Timer tick effect
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer.isActive) {
         timer.tick();
-
-        // Check for completion
         if (timer.timeLeft <= 0) {
           timer.setIsActive(false);
           handleSessionComplete();
         }
       }
-    }, 100);
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [timer, timer.isActive, handleSessionComplete]);
-
-  const handleReset = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    timer.reset();
-  };
-
-  const handleModeSwitch = () => {
-    if (!timer.isActive) {
-      timer.setMode(timer.mode === 'focus' ? 'break' : 'focus');
-    }
-  };
+  }, [timer, handleSessionComplete]);
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardContent className="p-4 sm:p-6">
-        <div 
-          className={cn(
-            "relative p-4 sm:p-8 rounded-lg cursor-pointer transition-colors",
-            timer.mode === 'focus' 
-              ? "bg-[#EFE9D5] hover:bg-[#F5F1EA]" 
-              : "bg-[#EFE9D5] hover:bg-[#F5F1EA]"
-          )}
-          onClick={handleModeSwitch}
-        >
-          <div className="text-center mb-4 sm:mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold mb-2">
-              {timer.mode === 'focus' ? 'Focus Time' : 'Break Time'}
-            </h2>
-            <div className="text-5xl sm:text-6xl font-mono font-bold">
-              {formatTime(timer.timeLeft)}
-            </div>
-          </div>
-
-          <div className="flex justify-center gap-3 sm:gap-4">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                timer.setIsActive(!timer.isActive);
-              }}
-              variant={timer.isActive ? "destructive" : "default"}
-              className="text-sm sm:text-base"
-            >
-              {timer.isActive ? "Pause" : "Start"}
-            </Button>
-            <Button 
-              onClick={handleReset}
-              variant="outline"
-              className="text-sm sm:text-base"
-            >
-              Reset
-            </Button>
-          </div>
-
-          <Progress 
-            value={timer.progress} 
-            className={cn(
-              "mt-4",
-              timer.mode === 'focus' ? "[&>div]:bg-green-600" : "[&>div]:bg-blue-600"
-            )}
-          />
+    <Card className="w-full max-w-lg mx-auto bg-cyan-900 text-white shadow-xl rounded-lg p-6">
+      <CardContent className="flex flex-col items-center gap-6">
+        <h2 className="text-2xl font-bold tracking-wide uppercase text-center">
+          {timer.mode === "focus" ? "Focus Mode" : "Break Mode"}
+        </h2>
+        <div className="text-6xl font-mono font-bold">{formatTime(timer.timeLeft)}</div>
+        <Progress value={timer.progress} className="w-full h-2 rounded-lg bg-cyan-600" />
+        <div className="flex gap-4">
+          <Button
+            onClick={() => timer.setIsActive(!timer.isActive)}
+            variant="outline"
+            className="flex items-center gap-2 px-6 py-2"
+          >
+            {timer.isActive ? <Pause size={20} /> : <Play size={20} />} {timer.isActive ? "Pause" : "Start"}
+          </Button>
+          <Button onClick={() => timer.reset()} variant="destructive" className="flex items-center gap-2 px-6 py-2">
+            <RotateCcw size={20} /> Reset
+          </Button>
         </div>
-
-        <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
+        <div className="w-full flex flex-col gap-4">
           <div>
-            <Label className="text-sm sm:text-base">Focus Duration (minutes)</Label>
+            <Label className="text-sm">Focus Duration</Label>
             <Select
               value={timer.focusTime.toString()}
               onValueChange={(value) => {
                 timer.setFocusTime(parseInt(value));
-                if (timer.mode === 'focus') {
+                if (timer.mode === "focus") {
                   timer.setTimeLeft(parseInt(value) * 60);
                 }
               }}
               disabled={timer.isActive}
             >
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="mt-1 bg-cyan-700 text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-cyan-800 text-white">
                 {[15, 25, 30, 45, 60].map((time) => (
-                  <SelectItem key={time} value={time.toString()}>
-                    {time} minutes
-                  </SelectItem>
+                  <SelectItem key={time} value={time.toString()}>{time} min</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
           <div>
-            <Label className="text-sm sm:text-base">Break Duration (minutes)</Label>
+            <Label className="text-sm">Break Duration</Label>
             <Select
               value={timer.breakTime.toString()}
               onValueChange={(value) => {
                 timer.setBreakTime(parseInt(value));
-                if (timer.mode === 'break') {
+                if (timer.mode === "break") {
                   timer.setTimeLeft(parseInt(value) * 60);
                 }
               }}
               disabled={timer.isActive}
             >
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="mt-1 bg-cyan-700 text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-cyan-800 text-white">
                 {[5, 10, 15, 20].map((time) => (
-                  <SelectItem key={time} value={time.toString()}>
-                    {time} minutes
-                  </SelectItem>
+                  <SelectItem key={time} value={time.toString()}>{time} min</SelectItem>
                 ))}
               </SelectContent>
             </Select>

@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { Loader2} from "lucide-react"
+import { Loader2, UserCircle, Mail, Edit3, CheckCircle, XCircle } from "lucide-react"
 
 export default function ProfilePage() {
   const { data: session } = useSession()
@@ -43,71 +43,80 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container max-w-4xl py-8">
-      <Card className="border-2 border-black bg-[#F2EDE0]">
-        <CardHeader className="border-b-2 border-black">
-          <CardTitle className="text-2xl font-bold flex items-center gap-4">
-            <Avatar className="h-16 w-16">
+    <div className="container max-w-4xl py-8 flex justify-center">
+      <Card className="border border-cyan-500 bg-gradient-to-br from-cyan-100 to-cyan-300 shadow-xl rounded-lg w-full">
+        <CardHeader className="border-b border-cyan-400">
+          <CardTitle className="text-3xl font-bold flex items-center gap-4">
+            <Avatar className="h-20 w-20 border-2 border-cyan-500">
               <AvatarImage
                 src={session?.user?.image || "/images/default-avatar.png"}
                 alt={session?.user?.name || "User"}
               />
-              <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
+              <AvatarFallback className="text-cyan-700 font-bold text-xl">
+                <UserCircle className="h-8 w-8" />
+              </AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-2xl">{session?.user?.name}</h1>
-              <p className="text-sm text-gray-500">{session?.user?.email}</p>
+              <h1 className="text-2xl text-cyan-900 font-semibold flex items-center gap-2">
+                {session?.user?.name}
+              </h1>
+              <p className="text-sm text-cyan-700 flex items-center gap-2">
+                <Mail className="h-4 w-4" /> {session?.user?.email}
+              </p>
             </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-
           {isEditing ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="text-sm font-medium">Name</label>
+                <label className="text-sm font-medium text-cyan-800">Name</label>
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="mt-1"
+                  className="mt-1 border-cyan-500 focus:ring-cyan-500"
                   name="name"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">Email</label>
+                <label className="text-sm font-medium text-cyan-800">Email</label>
                 <Input
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="mt-1"
+                  className="mt-1 border-cyan-500 bg-gray-200 cursor-not-allowed"
                   name="email"
                   disabled
                 />
               </div>
               <div className="flex gap-2">
-                <Button type="submit" disabled={loading}>
+                <Button type="submit" disabled={loading} className="bg-cyan-600 hover:bg-cyan-700">
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Saving...
                     </>
                   ) : (
-                    "Save Changes"
+                    <>
+                      <CheckCircle className="mr-2 h-4 w-4" /> Save Changes
+                    </>
                   )}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setIsEditing(false)}
+                  className="border-cyan-500 text-cyan-700 hover:bg-cyan-100"
                 >
-                  Cancel
+                  <XCircle className="mr-2 h-4 w-4" /> Cancel
                 </Button>
               </div>
             </form>
           ) : (
-            <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
+            <Button onClick={() => setIsEditing(true)} className="bg-cyan-600 hover:bg-cyan-700">
+              <Edit3 className="mr-2 h-4 w-4" /> Edit Profile
+            </Button>
           )}
         </CardContent>
       </Card>
     </div>
   )
-} 
+}

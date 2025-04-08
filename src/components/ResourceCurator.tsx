@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2 } from "lucide-react";
+import { Loader2, BookOpen, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
@@ -57,20 +57,20 @@ export default function ResourceCurator({ onCreateResources }: ResourceCuratorPr
   };
 
   return (
-    <div className="w-full bg-[#F2EDE0] p-4 sm:p-6 border-2 border-b-4 border-r-4 border-black rounded-xl">
+    <div className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 p-6 sm:p-8 border-2 border-black rounded-xl shadow-lg">
       <div className="max-w-6xl mx-auto">
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <Input
               type="text"
-              placeholder="Enter a topic to find learning resources..."
+              placeholder="Enter the topic you want to learn"
               value={subject}
               onChange={(e) => {
                 setSubject(e.target.value);
                 setError(null);
               }}
               className={cn(
-                "bg-white border-2 border-black text-gray-900 placeholder-gray-500 text-base sm:text-lg p-6 rounded-xl h-auto",
+                "bg-white border-2 border-black text-gray-900 placeholder-gray-500 text-lg p-4 rounded-lg focus:ring-2 focus:ring-cyan-300 transition-all",
                 error && "border-red-500 focus-visible:ring-red-500"
               )}
             />
@@ -81,37 +81,40 @@ export default function ResourceCurator({ onCreateResources }: ResourceCuratorPr
           <Button
             type="submit"
             disabled={loading || !subject.trim()}
-            className="w-full sm:w-auto flex justify-center items-center text-base sm:text-lg py-8 mt-1 px-8 rounded-xl"
+            className="w-full sm:w-auto flex justify-center items-center text-lg py-4 px-6 rounded-lg bg-cyan-700 text-white hover:bg-cyan-800 transition-all shadow-md"
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                 Generating...
               </>
             ) : (
-              "Generate Resources"
+              "Generate"
             )}
           </Button>
         </form>
 
         {!error && resources.length > 0 && (
-          <ScrollArea className="h-[calc(100vh-400px)] sm:h-[calc(100vh-300px)] w-full">
-            <div className="grid grid-cols-1 gap-6 sm:gap-10">
+          <ScrollArea className="h-[calc(100vh-400px)] sm:h-[calc(100vh-300px)] w-full mt-6">
+            <div className="grid grid-cols-1 gap-6">
               {resources.map((resource, index) => (
-                <Card key={index} className="bg-white border-2 border-black border-b-4 border-r-4">
-                  <CardHeader className="p-4 sm:p-6">
-                    <CardTitle className="text-lg sm:text-xl text-gray-800">{resource.title}</CardTitle>
-                    <div className="text-xs sm:text-sm text-gray-500">{resource.type}</div>
+                <Card key={index} className="bg-white border-2 border-black rounded-lg shadow-md">
+                  <CardHeader className="p-4 flex items-center gap-3">
+                    <BookOpen className="text-cyan-600 w-6 h-6" />
+                    <div>
+                      <CardTitle className="text-xl text-gray-800">{resource.title}</CardTitle>
+                      <div className="text-sm text-gray-500">{resource.type}</div>
+                    </div>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
-                    <p className="text-sm sm:text-base text-gray-600 mb-4">{resource.description}</p>
+                  <CardContent className="p-4">
+                    <p className="text-sm text-gray-600 mb-4">{resource.description}</p>
                     <a 
                       href={resource.link} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="inline-flex items-center text-[#7fb236] hover:text-[#6f9826] hover:underline text-sm sm:text-base"
+                      className="inline-flex items-center text-cyan-600 hover:text-cyan-800 transition-all text-sm font-semibold"
                     >
-                      Learn More →
+                      Learn More <ExternalLink className="ml-1 w-4 h-4" />
                     </a>
                   </CardContent>
                 </Card>

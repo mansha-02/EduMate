@@ -246,253 +246,259 @@ export default function PdfViewer({ documentId, currentPage, onPageChange }: Pdf
   }), [documentData.pdfData]);
 
   return (
-    <div className={cn(
-      "flex flex-col border-2 border-black rounded-lg overflow-hidden relative bg-background",
-      uiState.isFullscreen ? "fixed inset-0 z-50" : "w-full h-full"
-    )}>
-      {/* Mobile Header */}
-      <div className="flex items-center justify-between p-2 border-b border-black bg-muted/40">
-        <div className="flex items-center gap-2">
-          <Link href="/pdf" className="hover:opacity-80">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Button>
-          </Link>
-          <h2 className="text-sm font-medium truncate max-w-[200px] sm:max-w-[300px]">
-            {documentData.title}
-          </h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setUiState(prev => ({ ...prev, showMobileMenu: !prev.showMobileMenu }))}
-            className="lg:hidden"
-          >
-            <Menu className="h-4 w-4" />
+  <div className={cn(
+    "flex flex-col border-2 border-cyan-500 rounded-lg overflow-hidden relative bg-cyan-50", // Changed to cyan theme
+    uiState.isFullscreen ? "fixed inset-0 z-50" : "w-full h-full"
+  )}>
+    {/* Mobile Header */}
+    <div className="flex items-center justify-between p-2 border-b border-cyan-500 bg-cyan-200/40">
+      <div className="flex items-center gap-2">
+        <Link href="/pdf" className="hover:opacity-80">
+          <Button variant="ghost" size="sm" className="gap-2">
+            <ArrowLeft className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
+            <span className="hidden sm:inline text-cyan-600">Back</span>
           </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleFullscreen}
-            className="hidden lg:flex gap-2"
-          >
-            <Maximize2 className="h-4 w-4" />
-            <span className="hidden sm:inline">
-              {uiState.isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-            </span>
-          </Button>
-        </div>
+        </Link>
+        <h2 className="text-sm font-medium truncate max-w-[200px] sm:max-w-[300px] text-cyan-700">
+          {documentData.title}
+        </h2>
       </div>
-
-      {/* Mobile Controls Menu */}
-      <div className={cn(
-        "lg:hidden flex flex-col gap-4 p-4 bg-muted/40 border-b border-black transition-all duration-300",
-        uiState.showMobileMenu ? "block" : "hidden"
-      )}>
-        {/* Page Navigation and Zoom Display */}
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => handlePageChange(-1)}
-              disabled={viewState.pageNumber <= 1 || uiState.error !== null}
-              className="h-10 w-10"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <span className="text-sm font-medium min-w-[80px] text-center">
-              {uiState.error ? 'Error' : `${viewState.pageNumber} / ${viewState.numPages}`}
-            </span>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => handlePageChange(1)}
-              disabled={viewState.pageNumber >= viewState.numPages || uiState.error !== null}
-              className="h-10 w-10"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-          <span className="text-sm font-medium px-3 py-2 bg-background rounded-md border">
-            {Math.round(viewState.scale * 100)}%
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setUiState(prev => ({ ...prev, showMobileMenu: !prev.showMobileMenu }))}
+          className="lg:hidden"
+        >
+          <Menu className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggleFullscreen}
+          className="hidden lg:flex gap-2"
+        >
+          <Maximize2 className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
+          <span className="hidden sm:inline text-cyan-600">
+            {uiState.isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
           </span>
-        </div>
-
-        {/* Zoom Controls */}
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            variant="outline"
-            onClick={() => handleZoom(-0.1)}
-            className="flex items-center justify-center gap-2 h-12"
-          >
-            <ZoomOut className="h-5 w-5" />
-            <span>Zoom Out</span>
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => handleZoom(0.1)}
-            className="flex items-center justify-center gap-2 h-12"
-          >
-            <ZoomIn className="h-5 w-5" />
-            <span>Zoom In</span>
-          </Button>
-        </div>
-
-        {/* Additional Controls */}
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            variant="outline"
-            onClick={handleRotate}
-            className="flex items-center justify-center gap-2 h-12"
-          >
-            <RotateCw className="h-5 w-5" />
-            <span>Rotate</span>
-          </Button>
-          <Button
-            variant="outline"
-            onClick={toggleFullscreen}
-            className="flex items-center justify-center gap-2 h-12"
-          >
-            <Maximize2 className="h-5 w-5" />
-            <span>{uiState.isFullscreen ? 'Exit Full' : 'Fullscreen'}</span>
-          </Button>
-        </div>
+        </Button>
       </div>
+    </div>
 
-      {/* Desktop Controls */}
-      <div className="hidden lg:flex items-center justify-between p-2 border-b border-black bg-muted/40">
+    {/* Mobile Controls Menu */}
+    <div className={cn(
+      "lg:hidden flex flex-col gap-4 p-4 bg-cyan-200/40 border-b border-cyan-500 transition-all duration-300",
+      uiState.showMobileMenu ? "block" : "hidden"
+    )}>
+      {/* Page Navigation and Zoom Display */}
+      <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Button
-            variant="ghost"
-            size="sm"
+            variant="outline"
+            size="icon"
             onClick={() => handlePageChange(-1)}
             disabled={viewState.pageNumber <= 1 || uiState.error !== null}
+            className="h-10 w-10 border-cyan-500 text-cyan-600"
           >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Previous
+            <ChevronLeft className="h-5 w-5 text-cyan-600" /> {/* Cyan icon */}
           </Button>
-          <span className="text-sm font-medium px-2">
+          <span className="text-sm font-medium min-w-[80px] text-center text-cyan-600">
             {uiState.error ? 'Error' : `${viewState.pageNumber} / ${viewState.numPages}`}
           </span>
           <Button
-            variant="ghost"
-            size="sm"
+            variant="outline"
+            size="icon"
             onClick={() => handlePageChange(1)}
             disabled={viewState.pageNumber >= viewState.numPages || uiState.error !== null}
+            className="h-10 w-10 border-cyan-500 text-cyan-600"
           >
-            Next
-            <ChevronRight className="h-4 w-4 ml-1" />
+            <ChevronRight className="h-5 w-5 text-cyan-600" /> {/* Cyan icon */}
           </Button>
         </div>
-        
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleZoom(-0.1)}
-              title="Zoom Out"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            <span className="text-sm font-medium min-w-[60px] text-center">
-              {Math.round(viewState.scale * 100)}%
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleZoom(0.1)}
-              title="Zoom In"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </Button>
-          </div>
+        <span className="text-sm font-medium px-3 py-2 bg-cyan-50 rounded-md border border-cyan-500 text-cyan-600">
+          {Math.round(viewState.scale * 100)}%
+        </span>
+      </div>
+
+      {/* Zoom Controls */}
+      <div className="grid grid-cols-2 gap-2">
+        <Button
+          variant="outline"
+          onClick={() => handleZoom(-0.1)}
+          className="flex items-center justify-center gap-2 h-12 border-cyan-500 text-cyan-600"
+        >
+          <ZoomOut className="h-5 w-5 text-cyan-600" /> {/* Cyan icon */}
+          <span>Zoom Out</span>
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => handleZoom(0.1)}
+          className="flex items-center justify-center gap-2 h-12 border-cyan-500 text-cyan-600"
+        >
+          <ZoomIn className="h-5 w-5 text-cyan-600" /> {/* Cyan icon */}
+          <span>Zoom In</span>
+        </Button>
+      </div>
+
+      {/* Additional Controls */}
+      <div className="grid grid-cols-2 gap-2">
+        <Button
+          variant="outline"
+          onClick={handleRotate}
+          className="flex items-center justify-center gap-2 h-12 border-cyan-500 text-cyan-600"
+        >
+          <RotateCw className="h-5 w-5 text-cyan-600" /> {/* Cyan icon */}
+          <span>Rotate</span>
+        </Button>
+        <Button
+          variant="outline"
+          onClick={toggleFullscreen}
+          className="flex items-center justify-center gap-2 h-12 border-cyan-500 text-cyan-600"
+        >
+          <Maximize2 className="h-5 w-5 text-cyan-600" /> {/* Cyan icon */}
+          <span>{uiState.isFullscreen ? 'Exit Full' : 'Fullscreen'}</span>
+        </Button>
+      </div>
+    </div>
+
+    {/* Desktop Controls */}
+    <div className="hidden lg:flex items-center justify-between p-2 border-b border-cyan-500 bg-cyan-200/40">
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => handlePageChange(-1)}
+          disabled={viewState.pageNumber <= 1 || uiState.error !== null}
+          className="text-cyan-600"
+        >
+          <ChevronLeft className="h-4 w-4 mr-1 text-cyan-600" /> {/* Cyan icon */}
+          Previous
+        </Button>
+        <span className="text-sm font-medium px-2 text-cyan-600">
+          {uiState.error ? 'Error' : `${viewState.pageNumber} / ${viewState.numPages}`}
+        </span>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => handlePageChange(1)}
+          disabled={viewState.pageNumber >= viewState.numPages || uiState.error !== null}
+          className="text-cyan-600"
+        >
+          Next
+          <ChevronRight className="h-4 w-4 ml-1 text-cyan-600" /> {/* Cyan icon */}
+        </Button>
+      </div>
+      
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleRotate}
-            title="Rotate"
+            onClick={() => handleZoom(-0.1)}
+            title="Zoom Out"
+            className="text-cyan-600"
           >
-            <RotateCw className="h-4 w-4" />
+            <ZoomOut className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
+          </Button>
+          <span className="text-sm font-medium min-w-[60px] text-center text-cyan-600">
+            {Math.round(viewState.scale * 100)}%
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleZoom(0.1)}
+            title="Zoom In"
+            className="text-cyan-600"
+          >
+            <ZoomIn className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
           </Button>
         </div>
-      </div>
-
-      {/* PDF Content */}
-      <ScrollArea className="flex-1 w-full relative">
-        <div 
-          ref={contentRef}
-          className="flex flex-col items-center justify-start p-4 touch-none"
-          onClick={() => setUiState(prev => ({ ...prev, showMobileMenu: false }))}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          style={{
-            transform: `translate(${viewState.position.x}px, ${viewState.position.y}px)`,
-            transition: touchRef.current.isDragging ? 'none' : 'transform 0.2s ease-out',
-            minHeight: pdfDimensionsRef.current.height ? `${pdfDimensionsRef.current.height + 32}px` : '100vh'
-          }}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleRotate}
+          title="Rotate"
+          className="text-cyan-600"
         >
-          {uiState.error ? (
-            <div className="text-center p-4">
-              <div className="text-destructive mb-4">{uiState.error}</div>
-              <Button 
-                onClick={fetchPdf}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                <RefreshCw className="h-4 w-4" />
-                Retry
-              </Button>
-            </div>
-          ) : uiState.loading ? (
-            <div className="fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50">
-              <PacmanLoader color="#538B81" />
-            </div>
-          ) : (
-            <div 
-              className="relative flex justify-center"
-              style={{
-                width: pdfDimensionsRef.current.width || '100%',
-                minHeight: pdfDimensionsRef.current.height || 'auto',
+          <RotateCw className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
+        </Button>
+      </div>
+    </div>
+
+    {/* PDF Content */}
+    <ScrollArea className="flex-1 w-full relative">
+      <div 
+        ref={contentRef}
+        className="flex flex-col items-center justify-start p-4 touch-none"
+        onClick={() => setUiState(prev => ({ ...prev, showMobileMenu: false }))}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          transform: `translate(${viewState.position.x}px, ${viewState.position.y}px)`,
+          transition: touchRef.current.isDragging ? 'none' : 'transform 0.2s ease-out',
+          minHeight: pdfDimensionsRef.current.height ? `${pdfDimensionsRef.current.height + 32}px` : '100vh'
+        }}
+      >
+        {uiState.error ? (
+          <div className="text-center p-4">
+            <div className="text-red-500 mb-4">{uiState.error}</div> {/* Changed to red for error */}
+            <Button 
+              onClick={fetchPdf}
+              variant="outline"
+              size="sm"
+              className="gap-2 text-cyan-600 border-cyan-500"
+            >
+              <RefreshCw className="h-4 w-4 text-cyan-600" /> {/* Cyan icon */}
+              Retry
+            </Button>
+          </div>
+        ) : uiState.loading ? (
+          <div className="fixed inset-0 flex items-center justify-center bg-cyan-50/80 backdrop-blur-sm z-50">
+            <PacmanLoader color="#00B5D8" /> {/* Cyan loader */}
+          </div>
+        ) : (
+          <div 
+            className="relative flex justify-center"
+            style={{
+              width: pdfDimensionsRef.current.width || '100%',
+              minHeight: pdfDimensionsRef.current.height || 'auto',
+            }}
+          >
+            <MemoizedDocument
+              {...documentOptions}
+              onLoadSuccess={({ numPages }) => {
+                setViewState(prev => ({ ...prev, numPages }));
+                setUiState(prev => ({ ...prev, error: null }));
+              }}
+              onLoadError={(err) => {
+                console.error('PDF load error:', err);
+                setUiState(prev => ({ ...prev, error: 'Failed to load PDF file.' }));
               }}
             >
-              <MemoizedDocument
-                {...documentOptions}
-                onLoadSuccess={({ numPages }) => {
-                  setViewState(prev => ({ ...prev, numPages }));
-                  setUiState(prev => ({ ...prev, error: null }));
-                }}
-                onLoadError={(err) => {
-                  console.error('PDF load error:', err);
-                  setUiState(prev => ({ ...prev, error: 'Failed to load PDF file.' }));
-                }}
-              >
-                <div className="relative">
-                  <div 
-                    style={{
-                      width: pdfDimensionsRef.current.width || '100%',
-                      height: pdfDimensionsRef.current.height || 'auto',
-                      position: 'relative'
-                    }}
-                  >
-                    <MemoizedPage {...pageOptions} />
-                    {isPageLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-                        <PacmanLoader color="#538B81" />
-                      </div>
-                    )}
-                  </div>
+              <div className="relative">
+                <div 
+                  style={{
+                    width: pdfDimensionsRef.current.width || '100%',
+                    height: pdfDimensionsRef.current.height || 'auto',
+                    position: 'relative'
+                  }}
+                >
+                  <MemoizedPage {...pageOptions} />
+                  {isPageLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-cyan-50/80 backdrop-blur-sm">
+                      <PacmanLoader color="#00B5D8" /> {/* Cyan loader */}
+                    </div>
+                  )}
                 </div>
-              </MemoizedDocument>
-            </div>
-          )}
-        </div>
-      </ScrollArea>
-    </div>
-  );
+              </div>
+            </MemoizedDocument>
+          </div>
+        )}
+      </div>
+    </ScrollArea>
+  </div>
+);
+
 } 

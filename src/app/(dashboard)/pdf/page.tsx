@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { FileUp, Loader2, File, Trash2 } from "lucide-react";
+import { FileText,UploadCloud, Loader2, File, Trash2 } from "lucide-react";
 import PacmanLoader from 'react-spinners/PacmanLoader';
 
 interface PdfDocument {
@@ -184,12 +184,12 @@ export default function PdfListPage() {
     );
   }
 
-  return (
-    <div className="container mx-auto p-6 max-w-7xl">
+   return (
+    <div className="container mx-auto p-6 max-w-7xl text-white">
       <div className="flex flex-col space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-3xl font-bold">Scriba</h1>
+          <h1 className="text-4xl font-extrabold text-cyan-400 drop-shadow-md">Interact with your files...</h1>
           <div className="flex items-center gap-4">
             <Input
               type="file"
@@ -203,15 +203,15 @@ export default function PdfListPage() {
               <Button
                 asChild
                 disabled={isUploading}
-                className="whitespace-nowrap"
+                className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg flex items-center"
               >
                 <span className="flex items-center">
                   {isUploading ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    <Loader2 className="h-5 w-5 animate-spin mr-2" />
                   ) : (
-                    <FileUp className="h-4 w-4 mr-2" />
+                    <UploadCloud className="h-5 w-5 mr-2" />
                   )}
-                  Upload PDF
+                  Upload Your PDF
                 </span>
               </Button>
             </label>
@@ -219,15 +219,15 @@ export default function PdfListPage() {
         </div>
 
         {/* Content */}
-        <div className="min-h-[calc(100vh-16rem)] bg-card rounded-lg">
+        <div className="min-h-[calc(100vh-16rem)] bg-cyan-900/80 rounded-lg shadow-lg p-6">
           {isLoading ? (
             <div className="flex justify-center items-center h-[calc(100vh-16rem)]">
-              <PacmanLoader color="#538B81" />
+              <PacmanLoader color="#00E5FF" />
             </div>
           ) : documents.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-16rem)] text-muted-foreground">
-              <File className="h-12 w-12 mb-4" />
-              <p>No documents yet. Upload your first PDF to get started!</p>
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-16rem)] text-cyan-300">
+              <FileText className="h-16 w-16 mb-4 text-cyan-400" />
+              <p className="text-lg font-semibold">No PDFs yet!</p>
             </div>
           ) : (
             <div className="p-6">
@@ -235,12 +235,12 @@ export default function PdfListPage() {
                 {documents.map((doc) => (
                   <Card
                     key={doc._id}
-                    className="group relative overflow-hidden hover:scale-105 transition-all duration-200"
+                    className="group relative overflow-hidden hover:scale-105 transition-all duration-300 bg-cyan-800 text-white rounded-lg shadow-md"
                   >
-                    <div className="p-4 flex flex-col space-y-2">
+                    <div className="p-5 flex flex-col space-y-2">
                       <div className="flex items-start justify-between gap-2">
                         <h3 
-                          className="font-semibold text-base line-clamp-2 cursor-pointer flex-1"
+                          className="font-bold text-lg line-clamp-2 cursor-pointer flex-1 hover:text-cyan-300"
                           onClick={() => router.push(`/pdf/${doc._id}`)}
                         >
                           {doc.title}
@@ -248,15 +248,15 @@ export default function PdfListPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity focus:opacity-100 touch-none"
+                          className="h-8 w-8 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity focus:opacity-100"
                           onClick={() => handleDelete(doc._id)}
                           aria-label="Delete document"
                         >
-                          <Trash2 className="h-4 w-4 text-destructive hover:text-destructive/80" />
+                          <Trash2 className="h-5 w-5 text-red-500 hover:text-red-400" />
                         </Button>
                       </div>
                       <div 
-                        className="flex items-center justify-between text-sm text-muted-foreground cursor-pointer"
+                        className="flex items-center justify-between text-sm text-cyan-300 cursor-pointer"
                         onClick={() => router.push(`/pdf/${doc._id}`)}
                       >
                         <span>{new Date(doc.createdAt).toLocaleDateString()}</span>
@@ -272,4 +272,4 @@ export default function PdfListPage() {
       </div>
     </div>
   );
-} 
+}

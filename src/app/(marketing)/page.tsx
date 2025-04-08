@@ -1,14 +1,12 @@
 'use client'
 
-import { BookOpen, Brain, Clock } from 'lucide-react'
+import { Book, BrainIcon, Clock2Icon, FileText, TimerIcon } from 'lucide-react'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { FeaturesGrid } from '@/components/sections/FeatureGrid'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { ReviewMarquee } from "@/components/ReviewMarquee"
-import { Video } from "@/components/Video"
-import { FaqSection } from "@/components/sections/FaqSection"
+import { FaqSection } from '@/components/sections/FaqSection'
 
 export default function Page() {
   const { data: session } = useSession()
@@ -22,47 +20,39 @@ export default function Page() {
 
   const features = [
     {
-      icon: <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-[#7fb236]" />,
+      icon: <Book className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-500" />, 
       title: "Personalized Study Plans", 
       description: "Get tailored study plans based on your goals and learning style."
     },
     {
-      icon: <Brain className="h-5 w-5 sm:h-6 sm:w-6 text-[#7fb236]" />,
+      icon: <BrainIcon className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-500" />, 
       title: "AI-Curated Resources",
-      description: "Access the best learning materials curated by our AI."
+      description: "Access high-quality study materials, including video tutorials, online courses, documentation, practice exercises, and academic papers curated by EduMate."
     },
     {
-      icon: <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-[#7fb236]" />,
+      icon: <TimerIcon className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-500" />, 
       title: "Time Management",
-      description: "Manage your time effectively and stay on top of your studies."
+      description: "Stay productive with efficient time management and focus boosters."
+    },
+    {
+      icon: <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-500" />, 
+      title: "Interactive PDF Chat",
+      description: "Upload PDFs and ask EduMate to summarize, explain, and highlight key information."
     }
   ]
 
   return (
-    <div className="container mx-auto px-4 py-8 sm:py-16 bg-[#EFE9D5]">
+    <div className="container mx-auto px-4 py-8 -mt-2 sm:py-16 bg-gradient-to-br from-cyan-700 to-cyan-400 text-white">
       <HeroSection
         title="Welcome to"
-        highlightedText="Mind Mentor"
-        description="Your AI-powered study assistant for accelerated learning"
+        highlightedText="<EduMate/>"
+        description="Personalized learning at its best, with AI assistance."
         ctaText={session ? "Go to Dashboard" : "Get Started"}
         ctaLink={session ? "/home" : "/register"}
+        ctaClass="bg-white text-cyan-700 hover:bg-cyan-300 hover:text-white transition-all duration-300 shadow-lg px-6 py-2 rounded-lg"
       />
       
       <FeaturesGrid features={features} />
-
-      <section className="py-12 sm:py-20">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
-          See Mind Mentor in Action
-        </h2>
-        <Video />
-      </section>
-
-      <section className="py-12 sm:py-20">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">
-          What Our Users Say
-        </h2>
-        <ReviewMarquee />
-      </section>
 
       <FaqSection />
     </div>

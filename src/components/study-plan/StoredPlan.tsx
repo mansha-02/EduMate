@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,7 +6,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiClient } from "@/lib/api-client";
-
 export interface Task {
   day: string;
   tasks: string[];
@@ -39,10 +38,13 @@ interface StoredPlanProps {
   onDelete: (planId: string) => void;
 }
 
+
+
 export function StoredPlan({ plan, onDelete }: StoredPlanProps) {
   const { toast } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Function to handle manual deletion
   const handleDelete = async () => {
     try {
       setIsDeleting(true);
@@ -64,6 +66,45 @@ export function StoredPlan({ plan, onDelete }: StoredPlanProps) {
     }
   };
 
+  // Auto-delete expired plans that are inactive
+  useEffect(() => {
+    const today = new Date();
+    const examDate = new Date(plan.overview.examDate);
+
+    if (!plan.isActive && examDate < today) {
+      handleDelete();
+    }
+  }, [plan.isActive, plan.overview.examDate]);
+  // Send notification once per day if exam is within 5 days
+  useEffect(() => {
+  const today = new Date();
+  const examDate = new Date(plan.overview.examDate);
+  const timeDiff = examDate.getTime() - today.getTime();
+  const remainingDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+  console.log("Checking notifications:", { remainingDays });
+
+  const notificationKey = `notified-${plan._id}`;
+  const lastNotifiedDate = localStorage.getItem(notificationKey);
+  const todayString = today.toDateString();
+
+  if (remainingDays > 0 && remainingDays <= 5) {
+    if (lastNotifiedDate !== todayString) {
+      console.log("Sending notification...");
+      toast({
+        variant: "destructive",
+        title: "Exam Reminder!",
+        description: `Your exam for ${plan.overview.subject} is in ${remainingDays} days!`,
+      });
+
+      localStorage.setItem(notificationKey, todayString);
+    }
+  } else if (remainingDays <= 0) {
+    localStorage.removeItem(notificationKey);
+  }
+}, [plan.overview.examDate]);
+
+
   return (
     <Card className="w-full mt-4 sm:mt-8">
       <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
@@ -79,27 +120,30 @@ export function StoredPlan({ plan, onDelete }: StoredPlanProps) {
             </Badge>
           </div>
         </div>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive" disabled={isDeleting} className="w-full sm:w-auto hover:bg-red-500">
-              Delete Plan
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="w-[95vw] max-w-md sm:w-full">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your study plan.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
-              <AlertDialogCancel className="w-full sm:w-auto">Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete} className="w-full sm:w-auto hover:bg-red-500">
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+
+        {plan.isActive && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" disabled={isDeleting} className="w-full sm:w-auto hover:bg-red-500">
+                Delete Plan
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="w-[95vw] max-w-md sm:w-full">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete your study plan.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
+                <AlertDialogCancel className="w-full sm:w-auto">Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDelete} className="w-full sm:w-auto hover:bg-red-500">
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </CardHeader>
 
       <CardContent>

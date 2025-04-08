@@ -154,10 +154,8 @@ export default function ResourcesPage() {
   return (
     <div className="p-4 sm:p-6 md:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Resource Curator</h1>
-        <div className="flex items-center">
-          <span className="text-xs sm:text-sm text-gray-600">Find and manage learning resources</span>
-        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Find and manage learning resources</h1>
+        
       </div>
       <div className="w-full max-w-10xl mx-auto">
         <ResourceCurator onCreateResources={handleCreateResources} />
@@ -176,7 +174,7 @@ export default function ResourcesPage() {
       ) : (
         <div id="stored-resources" className="mt-8 sm:mt-12">
           <Separator className="my-6 sm:my-8" />
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Your Curated Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Your Materials :</h2>
           {storedResources.length > 0 ? (
             <>
               <div className="space-y-4 sm:space-y-6">
@@ -198,8 +196,7 @@ export default function ResourcesPage() {
             </>
           ) : (
             <div className="text-center py-8 text-gray-500">
-              <p>You haven&apos;t curated any resources yet.</p>
-              <p className="mt-2">Use the form above to get personalized learning resources!</p>
+              <p>No resources yet!.</p>
             </div>
           )}
         </div>
