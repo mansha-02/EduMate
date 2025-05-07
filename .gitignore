@@ -30,6 +30,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+# Ignore environment files
+.env
+.env.*
 
 # typescript
 *.tsbuildinfo
