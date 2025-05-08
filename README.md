@@ -2,7 +2,7 @@
 
 EduMate is an AI-powered personalized education platform built to revolutionize the way students study. It combines intelligent study planning, smart content curation, document analysis, and productivity tools to help learners achieve their academic goals efficiently.
 
-<img src="https://github.com/user-attachments/assets/07377481-6aaf-4c58-9d76-001bba50a741" width="500" />
+<img src="https://github.com/user-attachments/assets/4c7f61ec-cd79-4cd4-b84a-14353e02193b" width="500" />
 
 
 ---
@@ -15,31 +15,29 @@ EduMate is an AI-powered personalized education platform built to revolutionize 
 - Weekly milestones and daily task breakdowns.
 - Dynamic updates to accommodate changing timelines.
 
-<img src="https://github.com/user-attachments/assets/6befd93c-4d6c-4e71-a0a2-d20cf31e606c" width="500" />
+<img src="https://github.com/user-attachments/assets/8a2065de-f05e-4366-8ecc-19d4f35dd701" width="500" />
+
 
 ### 📚 Smart Resource Curation
 - Integrated with **Tavily API** for high-quality content discovery.
 - Ranks content using a quality scoring algorithm.
 - Supports video tutorials, articles, documentation, and more.
 
-  <img src="https://github.com/user-attachments/assets/4f9163d7-d128-4026-9f29-612c489e2f38" width="500" />
+  <img src="https://github.com/user-attachments/assets/69134147-1c52-4508-82f7-9b8c4b6826d9" width="500" />
+
 
 ### 📄 Interactive PDF Chat Assistant
 - Upload PDFs and ask context-aware questions.
 - Receive intelligent responses with source references.
 - Navigate and query documents with an AI-integrated chat interface.
 
-  <img src="https://github.com/user-attachments/assets/72d5ad9f-5d88-4a04-936e-03242a72bf34" width="500" />
+  <img src="https://github.com/user-attachments/assets/a7640ca7-757c-47fd-b873-4a4174fbbe46" width="500" />
+
 
 ### ⏱️ Productivity Tools
 - Pomodoro timer with adjustable intervals.
 - Session history to track and improve study patterns.
 - Notes management system for organized learning.
-
-<img src="https://github.com/user-attachments/assets/ffa4a8d4-3e2c-46fd-8f2f-a3becf64fc5d" width="500" />
-
-<img src="https://github.com/user-attachments/assets/69e0bd09-95cb-4aea-8b38-1b76c6649ce9" width="500" />
-
 ---
 
 ## 🧑‍💻 Tech Stack
@@ -57,8 +55,6 @@ EduMate is an AI-powered personalized education platform built to revolutionize 
 - **MongoDB** + **Mongoose ODM** for flexible NoSQL data handling
 - **JWT Authentication** for secure access
 - **Rate Limiting** to prevent abuse
-
-  <img src="https://github.com/user-attachments/assets/f4f4b7b5-7f57-42a7-9816-c04d576d58eb1" width="500" />
   
 
 
@@ -77,65 +73,6 @@ EduMate is an AI-powered personalized education platform built to revolutionize 
 - **AI Services**: Study planner, resource curation, document Q&A.
 
 ---
-![dfd1](https://github.com/user-attachments/assets/fe4d814d-d951-4ee8-b68f-3e83ca7307a2)
-
-
-
----
-## Installation
-### 1. Clone the Repository
-
-```git clone https://github.com/mansha-02/EduMate```
-
-```cd EduMate```
-### 2. Install Dependencies
-Frontend:
-
-```npm install```
-
-Backend:
-
-```cd server```
-
-```npm install```
-### 3. Set Up Environment Variables
-Frontend (.env.local in root directory):
-
-#### Frontend Environment Variables
-
-```NEXT_PUBLIC_API_URL=http://localhost:5000```
-
-```NEXTAUTH_URL=http://localhost:3000```
-
-```NEXTAUTH_SECRET=your-secret-key```
-
-#### Database
-
-```MONGODB_URI=your-mongodb-uri```
-Backend (server/.env):
-
-```PORT=5000```
-
-```MONGODB_URI=your-mongodb-uri```
-
-```GROQ_API_KEY=your-groq-api-key```
-
-```TAVILY_API_KEY=your-tavily-api-key```
-
-```HUGGINGFACE_API_KEY=your-huggingface-api-key```
-
-```JWT_SECRET=your-jwt-secret```
-
-### 4. Start the Development Servers
-Frontend:
-
-```npm run dev```
-
-Backend:
-
-```cd server```
-
-```npm run dev```
 
 ## Usage Guide
 ### Study Plan Generation
@@ -143,6 +80,11 @@ Backend:
 2. Enter your subject and exam date.
 3. Click "Generate".
 4. View your personalized study schedule
+### Smart Resource Curation
+1. Navigate to the Your Resources section.
+2. Enter subject/topic name.
+3. Click "Generate".
+4. View top resources.
 ### Pomodoro Timer
 1. Start a focused 25-minute study session.
 2. Follow automated prompts for short and long breaks.
